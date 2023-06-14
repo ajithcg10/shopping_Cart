@@ -1,0 +1,14 @@
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  list-style: none;
+}
+a {
+  cursor: pointer;
+}
+.Wrapper {
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
