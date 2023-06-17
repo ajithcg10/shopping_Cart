@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import { createContext } from "react";
 import { faker } from "@faker-js/faker";
-import { cartReduceer } from "./Reducer";
+import { cartReduceer, prodcutReduceer } from "./Reducer";
 
 export const CartItem = createContext();
 
@@ -26,9 +26,17 @@ export default function Context({ children }) {
     products: products,
     cart: [],
   });
+  const [prductstate, productdispatch] = useReducer(prodcutReduceer, {
+    byStock: false,
+    byFastdelivery: false,
+    byRaating: 0,
+    serachQuery: "",
+  });
 
   return (
-    <CartItem.Provider value={{ state, dispatch }}>
+    <CartItem.Provider
+      value={{ state, dispatch, prductstate, productdispatch }}
+    >
       {children}
     </CartItem.Provider>
   );

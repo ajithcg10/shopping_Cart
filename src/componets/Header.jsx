@@ -1,52 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import styled from "styled-components";
 import { FaCartArrowDown } from "react-icons/fa";
 import { BsCaretDownFill } from "react-icons/bs";
 import { CartItem } from "../context/Context";
+import Cart from "./Cart";
+import { Link } from "react-router-dom";
 
 export default function Header() {
+  const [isopen, setOpen] = useState(false);
+
   const {
     state: { cart },
+    productdispatch,
   } = useContext(CartItem);
-  console.log();
+
   return (
     <div>
-      <Conatiner>
+      <Container>
         <Wrapper className="Wrapper">
-          <Logo>Jameela Store</Logo>
-          <InPut placeholder="Serach a product..." />
-          <CartConatiner>
-            <CartIconConatiner>
+          <Logo to="/">Jameela Store</Logo>
+          <InPut
+            placeholder="Serach a product..."
+            onChange={(e) => {
+              productdispatch({
+                type: "SerachQuery",
+                payload: e.target.value,
+              });
+            }}
+          />
+
+          <CartContainer onClick={() => setOpen(!isopen)}>
+            <CartIconContainer>
               <FaCartArrowDown />
-            </CartIconConatiner>
-            <span>{cart.length}</span>
+            </CartIconContainer>
+            <span style={{ color: "#fff", marginRight: "10px" }}>
+              {cart.length}
+            </span>
             <DownCOnatiner>
               <BsCaretDownFill />
             </DownCOnatiner>
-          </CartConatiner>
+          </CartContainer>
         </Wrapper>
-      </Conatiner>
+      </Container>
+      {isopen && <Cart />}
     </div>
   );
 }
-const Conatiner = styled.div`
+const Container = styled.div`
   background-color: #343a40;
   width: 100%;
 `;
 const Wrapper = styled.div`
   display: flex;
+  position: relative;
   justify-content: space-between;
   padding: 8px 0px;
   height: 80px;
   align-items: center;
 `;
-const Logo = styled.h1`
+const Logo = styled(Link)`
   color: #fff;
   font-weight: 100;
   font-size: 28px;
 `;
-const InputConatiner = styled.div``;
+
 const InPut = styled.input`
 border: none;
 outline: none;
@@ -55,7 +73,7 @@ padding: 10px;
 border-radius: 6px;
 }
 `;
-const CartConatiner = styled.div`
+const CartContainer = styled.div`
   background-color: #28a745;
   /* width: 100px; */
   display: flex;
@@ -64,7 +82,7 @@ const CartConatiner = styled.div`
   padding: 13px 31px;
   border-radius: 6px;
 `;
-const CartIconConatiner = styled.div`
+const CartIconContainer = styled.div`
   margin-right: 10px;
   color: #fff;
 `;

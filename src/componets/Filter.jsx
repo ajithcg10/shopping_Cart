@@ -1,43 +1,100 @@
 import React from "react";
-import { useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
+import { CartItem } from "../context/Context";
 import Raiting from "./Raiting";
 
 export default function Filter() {
-  const [rate, setRate] = useState();
-  console.log(rate);
+  const {
+    prductstate: { byRaating },
+    productdispatch,
+  } = useContext(CartItem);
   return (
     <div>
-      <Conatiner>
+      <Container>
         <Title>Filter Products</Title>
-        <FeatureConatiner>
+        <FeatureContainer>
           <Item>
-            <AscendingInput type="radio" id="ascending" name="ascending" />
+            <AscendingInput
+              type="radio"
+              id="ascending"
+              name="fav_sort"
+              onChange={(e) => {
+                productdispatch({
+                  type: "Sort_By_Price",
+                  payload: "lowTohigh",
+                });
+              }}
+            />
             <label for="ascending">Ascending</label>
           </Item>
           <Item>
-            <DescendingInput type="radio" id="descending" name="descending" />
+            <DescendingInput
+              type="radio"
+              id="descending"
+              name="fav_sort"
+              onChange={(e) => {
+                productdispatch({
+                  type: "Sort_By_Price",
+                  payload: "hightTolow",
+                });
+              }}
+            />
             <label for="descending">Descending</label>
           </Item>
           <Item>
-            <StockInput type="checkbox" id="stock" name="stock" />
-            <label for="stock">Include Out of Stock</label>
+            <StockInput
+              type="checkbox"
+              id="stock"
+              name="stock"
+              onChange={(e) => {
+                productdispatch({
+                  type: "Include_Out_of_Stock",
+                });
+              }}
+            />
+            <label for="stock">Remove Out of Stock</label>
           </Item>
           <Item>
-            <DeliveryInput type="checkbox" id="delivery" name="delivery" />
+            <DeliveryInput
+              type="checkbox"
+              id="delivery"
+              name="delivery"
+              onChange={(e) => {
+                productdispatch({
+                  type: "Fast_Delivery_Only",
+                });
+              }}
+            />
             <label for="delivery">Fast Delivery Only</label>
           </Item>
           <Item>
             <label for="Rating:">Rating:</label>
-            <Raiting rating={rate} add={(i) => setRate(i)} />
+            <Raiting
+              rating={byRaating}
+              add={(i) =>
+                productdispatch({
+                  type: "Rating",
+                  payload: i,
+                })
+              }
+            />
           </Item>
-          <ClearButton>Clear Filters</ClearButton>
-        </FeatureConatiner>
-      </Conatiner>
+          <ClearButton
+            onClick={() => {
+              productdispatch({
+                type: "Clear_Filters",
+              });
+            }}
+          >
+            Clear Filters
+          </ClearButton>
+        </FeatureContainer>
+      </Container>
     </div>
   );
 }
-const Conatiner = styled.div`
+const Container = styled.div`
   background-color: #343a40;
   color: #fff;
   width: 300px;
@@ -47,7 +104,7 @@ const Conatiner = styled.div`
 const Title = styled.h4`
   margin-bottom: 30px;
 `;
-const FeatureConatiner = styled.div``;
+const FeatureContainer = styled.div``;
 const Item = styled.div`
   margin-bottom: 20px;
 `;

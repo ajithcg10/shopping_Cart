@@ -2,6 +2,9 @@ import React, { useContext } from "react";
 import { CartItem } from "../context/Context";
 import styled from "styled-components";
 
+import { AiFillStar } from "react-icons/ai";
+import { AiOutlineStar } from "react-icons/ai";
+
 export default function SinglePage() {
   const {
     state: { products },
@@ -10,13 +13,38 @@ export default function SinglePage() {
     state: { cart },
     dispatch,
   } = useContext(CartItem);
-  console.log(cart);
+  const {
+    prductstate: { byStock, byFastdelivery, byRaating, serachQuery, sort },
+  } = useContext(CartItem);
+  const filterProduct = () => {
+    let sorteditem = products;
+    if (sort) {
+      sorteditem = sorteditem.sort((a, b) =>
+        sort === "lowTohigh" ? a.price - b.price : b.price - a.price
+      );
+      if (byStock) {
+        sorteditem = sorteditem.filter((p) => p.inStock);
+      }
+      if (byFastdelivery) {
+        sorteditem = sorteditem.filter((p) => p.fastDelivery);
+      }
+      if (byRaating) {
+        sorteditem = sorteditem.filter((p) => p.ratings > byRaating);
+      }
+      if (serachQuery) {
+        sorteditem = sorteditem.filter((p) =>
+          p.name.toLowerCase().includes(serachQuery)
+        );
+      }
+    }
+    return sorteditem;
+  };
 
   return (
     <Conatiner>
       <MainConatiner>
         <Box>
-          {products.map((pro) => {
+          {filterProduct().map((pro) => {
             return (
               <Item>
                 <TopConatiner>
@@ -30,7 +58,15 @@ export default function SinglePage() {
                   ) : (
                     <DeliveryTime>4 days delivery</DeliveryTime>
                   )}
-                  <RaitingContiner></RaitingContiner>
+                  <RaitingContiner>
+                    {[...Array(5)].map((_, i) => {
+                      return pro.ratings > i ? (
+                        <AiFillStar />
+                      ) : (
+                        <AiOutlineStar />
+                      );
+                    })}
+                  </RaitingContiner>
                   {cart.some((i) => i.id === pro.id) ? (
                     <CartButton
                       onClick={() => {
@@ -51,7 +87,7 @@ export default function SinglePage() {
                         });
                       }}
                     >
-                      {pro.inStock == 0 ? "out of stock" : "Add to cart"}
+                      {pro.inStock === 0 ? "out of stock" : "Add to cart"}
                     </CartButton>
                   )}
                 </BottomConatine>
