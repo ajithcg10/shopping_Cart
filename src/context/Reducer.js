@@ -26,7 +26,7 @@ export const prodcutReduceer = (state, action) => {
         ...state,
         sort: action.payload,
       };
-    case "Include_Out_of_Stock":
+    case "Remove_Out_of_Stock":
       return {
         ...state,
         byStock: !state.byStock,

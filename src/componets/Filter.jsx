@@ -1,4 +1,5 @@
 import React from "react";
+
 import { useContext } from "react";
 import styled from "styled-components";
 import { CartItem } from "../context/Context";
@@ -6,9 +7,10 @@ import Raiting from "./Raiting";
 
 export default function Filter() {
   const {
-    prductstate: { byRaating },
+    prductstate: { byRaating, byStock, byFastdelivery, sort },
     productdispatch,
   } = useContext(CartItem);
+
   return (
     <div>
       <Container>
@@ -19,6 +21,7 @@ export default function Filter() {
               type="radio"
               id="ascending"
               name="fav_sort"
+              checked={sort === "lowTohigh" ? true : false}
               onChange={() => {
                 productdispatch({
                   type: "Sort_By_Price",
@@ -33,6 +36,7 @@ export default function Filter() {
               type="radio"
               id="descending"
               name="fav_sort"
+              checked={sort === "hightTolow" ? true : false}
               onChange={() => {
                 productdispatch({
                   type: "Sort_By_Price",
@@ -47,6 +51,7 @@ export default function Filter() {
               type="checkbox"
               id="stock"
               name="stock"
+              checked={byStock}
               onChange={() => {
                 productdispatch({
                   type: "Remove_Out_of_Stock",
@@ -59,6 +64,7 @@ export default function Filter() {
             <DeliveryInput
               type="checkbox"
               id="delivery"
+              checked={byFastdelivery}
               name="delivery"
               onChange={() => {
                 productdispatch({
