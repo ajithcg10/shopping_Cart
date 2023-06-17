@@ -22,21 +22,22 @@ export default function SinglePage() {
       sorteditem = sorteditem.sort((a, b) =>
         sort === "lowTohigh" ? a.price - b.price : b.price - a.price
       );
-      if (byStock) {
-        sorteditem = sorteditem.filter((p) => p.inStock);
-      }
-      if (byFastdelivery) {
-        sorteditem = sorteditem.filter((p) => p.fastDelivery);
-      }
-      if (byRaating) {
-        sorteditem = sorteditem.filter((p) => p.ratings > byRaating);
-      }
-      if (serachQuery) {
-        sorteditem = sorteditem.filter((p) =>
-          p.name.toLowerCase().includes(serachQuery)
-        );
-      }
     }
+    if (byStock) {
+      sorteditem = sorteditem.filter((p) => p.inStock);
+    }
+    if (byFastdelivery) {
+      sorteditem = sorteditem.filter((p) => p.fastDelivery);
+    }
+    if (byRaating) {
+      sorteditem = sorteditem.filter((p) => p.ratings > byRaating);
+    }
+    if (serachQuery) {
+      sorteditem = sorteditem.filter((p) =>
+        p.name.toLowerCase().includes(serachQuery)
+      );
+    }
+
     return sorteditem;
   };
 

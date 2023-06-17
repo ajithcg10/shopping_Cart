@@ -19,7 +19,7 @@ export default function Filter() {
               type="radio"
               id="ascending"
               name="fav_sort"
-              onChange={(e) => {
+              onChange={() => {
                 productdispatch({
                   type: "Sort_By_Price",
                   payload: "lowTohigh",
@@ -33,7 +33,7 @@ export default function Filter() {
               type="radio"
               id="descending"
               name="fav_sort"
-              onChange={(e) => {
+              onChange={() => {
                 productdispatch({
                   type: "Sort_By_Price",
                   payload: "hightTolow",
@@ -47,9 +47,9 @@ export default function Filter() {
               type="checkbox"
               id="stock"
               name="stock"
-              onChange={(e) => {
+              onChange={() => {
                 productdispatch({
-                  type: "Include_Out_of_Stock",
+                  type: "Remove_Out_of_Stock",
                 });
               }}
             />
@@ -60,7 +60,7 @@ export default function Filter() {
               type="checkbox"
               id="delivery"
               name="delivery"
-              onChange={(e) => {
+              onChange={() => {
                 productdispatch({
                   type: "Fast_Delivery_Only",
                 });
